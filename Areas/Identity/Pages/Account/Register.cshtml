@@ -9,9 +9,51 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
+            <h4>Join the Club</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
+            @*new membership details added*@
+        <div class="form-group">
+            <label asp-for="Input.First_Name"></label>
+            <input asp-for="Input.First_Name" class="form-control" placeholder="Last Name" />
+            <span asp-validation-for="Input.First_Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Last_Name"></label>
+            <input asp-for="Input.Last_Name" class="form-control" placeholder="Last Name" />
+            <span asp-validation-for="Input.Last_Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.PhoneNumber"></label>
+            <input asp-for="Input.PhoneNumber" class="form-control" placeholder="086654321" />
+            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+        </div>
+
+            <div class="form-group">
+                <label asp-for="Input.DOB"></label>
+                <input asp-for="Input.DOB" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <fieldset>
+                    <legend>Membership Type</legend>
+                    <label for="Membership_Type" class="radio-inline">
+                        <input value="Player Member" id="Membership_Type"
+                               type="radio" asp-for="Input.Membership_Type" checked />Player Member
+                    </label>
+                    <label for="Membership_Type" class="radio-inline">
+                        <input value="Club Member" id="Membership_Type"
+                               type="radio" asp-for="Input.Membership_Type" checked />Club Member
+                    </label> 
+                    <span asp-validation-for="Input.Membership_Type" class="text-danger"></span>
+                </fieldset>
+                
+            </div>
+
+
+            @*End of new membership details added*@
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" class="form-control" />
@@ -27,7 +69,8 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Memembership Application</button>
+
         </form>
     </div>
     <div class="col-md-6 col-md-offset-2">

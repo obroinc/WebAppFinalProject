@@ -13,20 +13,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using WebAppProject.Models;
 
 namespace WebAppProject.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -35,6 +36,12 @@ namespace WebAppProject.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
         }
+        //New membership details added
+
+
+
+
+            //End of new memeber details added
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -45,6 +52,28 @@ namespace WebAppProject.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            //New membership details added
+            [Required]
+            [Display(Name = "First Name")]
+            public string First_Name { get; set; }
+
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string Last_Name { get; set; }
+
+            [Display(Name = "If a Player please enter you DOB")]
+            [DisplayFormat (DataFormatString ="{0:dd-mm-yyyy}",
+                ApplyFormatInEditMode = true)]
+            public DateTime? DOB { get; set; }
+
+            [Required]
+            [Display(Name = "Membership Type")]
+            public string Membership_Type { get; set; }
+
+            //End of new memeber details added
+
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -60,6 +89,14 @@ namespace WebAppProject.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            
+            //Adding Phone Number request
+            
+            [Required]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
+           
+          
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -74,7 +111,19 @@ namespace WebAppProject.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                //New membership details added
+                
+                var user = new ApplicationUser
+                { 
+                    UserName = Input.Email, 
+                    Email = Input.Email,
+                    First_Name=Input.First_Name,
+                    Last_Name=Input.Last_Name,
+                    DOB=Input.DOB,
+                    PhoneNumber=Input.PhoneNumber,
+                    Membership_Type=Input.Membership_Type
+                };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
